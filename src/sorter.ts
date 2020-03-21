@@ -13,7 +13,7 @@ export function makeRange(start: vscode.Position, end: vscode.Position, document
     return new vscode.Range(start, end);
 }
 
-export function sort(text: string, separator: string, locale: string) {
+export function sort(text: string, separator: string, locale: string, sensitivity: string) {
     let leadRegexp = new RegExp("^" + separator + "+");
     let trailRegexp = new RegExp(separator + "+$");
     let itemRegexp = new RegExp(separator + "+");
@@ -35,7 +35,7 @@ export function sort(text: string, separator: string, locale: string) {
 
     let sorted;
     if (locale !== "") {
-        sorted = items.sort((a, b) => a.localeCompare(b, locale));
+        sorted = items.sort((a, b) => a.localeCompare(b, locale, sensitivity && {sensitivity}));
     } else {
         sorted = items.sort();
     }
@@ -53,6 +53,7 @@ export function sort(text: string, separator: string, locale: string) {
 export function sorter(textEditor: vscode.TextEditor, edit: vscode.TextEditorEdit) {
     let settings = vscode.workspace.getConfiguration("sort");
     let locale = settings.get("locale", "en");
+    let sensitivity = settings.get("locale", "base");
 
     let start = textEditor.selection.start;
     let end = textEditor.selection.end;
@@ -62,7 +63,7 @@ export function sorter(textEditor: vscode.TextEditor, edit: vscode.TextEditorEdi
     let eol = text.indexOf("\r\n") > 0 ? "\r\n" : "\n";
     let separator = (range.start.line === range.end.line) ? " " : eol;
 
-    let sortedText = sort(text, separator, locale);
+    let sortedText = sort(text, separator, locale, sensitivity);
 
     edit.replace(range, sortedText);
 }

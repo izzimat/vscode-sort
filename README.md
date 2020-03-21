@@ -12,10 +12,11 @@ If you have selected multiple lines, lines will be sorted. If you have selected 
 
 ## Configuration
 
-If you want to set the locale for the sort, you can do so with the `sort.locale` option. The [localeCompare](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare) function will then be used for the sort, follow the link for more information.
+If you want to set the locale for the sort, you can do so with the `sort.locale` option. The [localeCompare](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare) function will then be used for the sort, follow the link for more information. You can also provide sensitivity option through `sort.sensitivity`.
 
 ```
 {
 	"sort.locale": "sv",
+	"sort.sensitivity: "accent",
 }
 ```
