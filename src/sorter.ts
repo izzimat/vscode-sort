@@ -14,26 +14,26 @@ export function makeRange(start: vscode.Position, end: vscode.Position, document
 }
 
 export function sort(text: string, separator: string, locale: string) {
-    let leadRegexp = new RegExp("^" + separator + "+");
-    let trailRegexp = new RegExp(separator + "+$");
-    let itemRegexp = new RegExp(separator + "+");
+    const leadRegexp = new RegExp("^" + separator + "+");
+    const trailRegexp = new RegExp(separator + "+$");
+    const itemRegexp = new RegExp(separator + "+");
 
-    let lead = leadRegexp.exec(text) || "";
+    const lead = leadRegexp.exec(text) || "";
     text = text.replace(leadRegexp, "");
 
-    let trail = trailRegexp.exec(text) || "";
+    const trail = trailRegexp.exec(text) || "";
     text = text.replace(trailRegexp, "");
 
     let items = text.split(itemRegexp);
     if (text[text.length - 1] !== ",") {
-        let test = text.split(new RegExp("," + separator + "+"));
+        const test = text.split(new RegExp("," + separator + "+"));
         if (test.length >= items.length) {
             items = test;
             separator = "," + separator;
         }
     }
 
-    let sorted;
+    let sorted: string[];
     if (locale !== "") {
         sorted = items.sort((a, b) => a.localeCompare(b, locale));
     } else {
@@ -51,18 +51,18 @@ export function sort(text: string, separator: string, locale: string) {
 }
 
 export function sorter(textEditor: vscode.TextEditor, edit: vscode.TextEditorEdit) {
-    let settings = vscode.workspace.getConfiguration("sort");
-    let locale = settings.get("locale", "en");
+    const settings = vscode.workspace.getConfiguration("sort");
+    const locale = settings.get("locale", "en");
 
-    let start = textEditor.selection.start;
-    let end = textEditor.selection.end;
-    let range = makeRange(start, end, textEditor.document);
+    const start = textEditor.selection.start;
+    const end = textEditor.selection.end;
+    const range = makeRange(start, end, textEditor.document);
 
-    let text = textEditor.document.getText(range);
-    let eol = text.indexOf("\r\n") > 0 ? "\r\n" : "\n";
-    let separator = (range.start.line === range.end.line) ? " " : eol;
+    const text = textEditor.document.getText(range);
+    const eol = text.indexOf("\r\n") > 0 ? "\r\n" : "\n";
+    const separator = (range.start.line === range.end.line) ? " " : eol;
 
-    let sortedText = sort(text, separator, locale);
+    const sortedText = sort(text, separator, locale);
 
     edit.replace(range, sortedText);
 }

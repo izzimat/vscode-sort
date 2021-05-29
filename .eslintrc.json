@@ -1,4 +1,21 @@
 {
+    "env": {
+        "commonjs": true,
+        "browser": true,
+        "es2015": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
     "rules": {
         "class-name": true,
         "comment-format": [
@@ -10,7 +27,7 @@
             "spaces"
         ],
         "no-duplicate-variable": true,
-        "no-eval": true,
+        "no-eval": 1,
         "no-internal-module": true,
         "no-trailing-whitespace": true,
         "no-var-keyword": true,
